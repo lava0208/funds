@@ -335,8 +335,6 @@ var excelData = originExcelData = [
         //... draw chart
         drawChart(excelData, 'USD');
         function drawChart(excelData, filterKey, chooseYear=false) {
-            $("#chart-container").empty();
-            $("#dynamic-year-chart-container").empty();
             anychart.onDocumentReady(function () {
                 if (excelData[0].ShareClass_Launch && excelData.length !== 0) {
                     filteredArray2 = excelData.filter(function (item) {
