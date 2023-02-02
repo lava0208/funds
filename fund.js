@@ -1,4 +1,4 @@
-var excelData = originExcelData = [
+ var excelData = originExcelData = [
             {
                 ShareClass_Launch: '12/27/2008',
                 ShareClass_CCY: 'USD',
@@ -293,30 +293,42 @@ var excelData = originExcelData = [
         var filteredArray2 = [];
 
         //... Change past performance
+        var year;
         $("#past-performance").change(function () {
+            console.log(year);
+            $("#dynamic-year-text").text(" is " + year);
             var that = this;
             filteredArray = excelData.filter(function (item) {
                 return item.ShareClass_CCY == $(that).val()
-            });            
-            $("#chart-container").empty();
-            $("#dynamic-year-chart-container").empty();
+            });
+            if (chart != null) {
+                $("#chart-container").empty();
+                $("#dynamic-year-chart-container").empty();
+            }
             drawChart(filteredArray, $(this).val());
             $("#dynamic-currency-text").html($(this).val());
+            
+            
+            drawYear(filteredArray[0].list[filteredArray[0].list.length - 1].date.slice(-4), filteredArray[0].list[0].date.slice(-4));
         })
 
-        //... Change year
-        $("#years").append("<option value=''>Select Year</option>")
-        for (var i = 2022; i > 2011; i--) {
-            var option = `<option value=` + i + `>` + i + `</option>`;
-            if($('#years > option').length < 12){
-                $("#years").append(option)
+        
+        drawYear(2022, 2011);
+        function drawYear(start, end){
+            //... Change year            
+            $("#years").html("<option value=''>Select Year</option>")
+            for (var i = start; i >= end; i--) {
+                var option = `<option value=` + i + `>` + i + `</option>`;
+                if($('#years > option').length < 12){
+                    $("#years").append(option)
+                }
             }
         }
 
         $("#years").change(function () {
             var tmpArr = excelData.filter(function (item) {
                 return item.ShareClass_CCY == $("#past-performance").val()
-            });            
+            });
 
             if($(this).val() != ""){
                 $("#dynamic-year-chart-container").empty();
@@ -324,16 +336,23 @@ var excelData = originExcelData = [
             }
         })
 
-        function yearFromDate(data){
-            return data.slice(-4);
-        }
-
         function filterByValue(array, string) {
             return array.filter(o => Object.keys(o).some(k => o[k].toLowerCase().includes(string.toLowerCase())));
         }
 
+        function yearFromDate(data){
+            return data.slice(-4);
+        }
+
         //... draw chart
         drawChart(excelData, 'USD');
+        $('.performance-container').each(function (i) {
+           console.log("============="); 
+            console.log(i);
+            if(i === 1){
+                $(this).empty();
+            }
+        })
         function drawChart(excelData, filterKey, chooseYear=false) {
             anychart.onDocumentReady(function () {
                 if (excelData[0].ShareClass_Launch && excelData.length !== 0) {
@@ -375,6 +394,12 @@ var excelData = originExcelData = [
                 }
 
                 var header = [];
+                if(excelData[0].list){
+                    year = excelData[0].list[0].date.slice(-4);
+                }else{
+                    year = excelData[0].date.slice(-4);
+                }
+
                 if(chooseYear == false){
                     excelData.forEach(element => {
                         var filterHeader = [];
@@ -467,18 +492,8 @@ var excelData = originExcelData = [
                     chart.saveAsXlsx('default', "excel");
                 })
             });
-
-            if(excelData[0].list && excelData[0].list.length > 0){
+            if(excelData.length > 1){
                 $("#dynamic-year-text").html(" is "+  yearFromDate(excelData[0].list[0].date));
-            }
-
-            $("#years").empty();
-            $("#years").append("<option value=''>Select Year</option>")
-            for (var i = 2022; i > 2011; i--) {
-                var option = `<option value=` + i + `>` + i + `</option>`;
-                if($('#years > option').length < 12){
-                    $("#years").append(option)
-                }
             }
         }
 
@@ -495,3 +510,9 @@ var excelData = originExcelData = [
             selectArr.push(option);
         });
         $("#past-performance").html(selectArr);
+
+        const scriptList = document.querySelectorAll("script[type='text/javascript']")
+        const convertedNodeList = Array.from(scriptList)
+		console.log(convertedNodeList);
+        const myScript = convertedNodeList.find((script, i) => script.id === "myScript", console.log(i))
+        myScript.parentNode.removeChild(myScript)
