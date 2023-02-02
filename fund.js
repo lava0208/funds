@@ -1,4 +1,4 @@
- var excelData = originExcelData = [
+        var excelData = originExcelData = [
             {
                 ShareClass_Launch: '12/27/2008',
                 ShareClass_CCY: 'USD',
@@ -510,9 +510,3 @@
             selectArr.push(option);
         });
         $("#past-performance").html(selectArr);
-
-        const scriptList = document.querySelectorAll("script[type='text/javascript']")
-        const convertedNodeList = Array.from(scriptList)
-		console.log(convertedNodeList);
-        const myScript = convertedNodeList.find((script, i) => script.id === "myScript", console.log(i))
-        myScript.parentNode.removeChild(myScript)
