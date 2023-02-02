@@ -1,4 +1,4 @@
-var excelData = originExcelData = [
+ var excelData = originExcelData = [
             {
                 ShareClass_Launch: '12/27/2008',
                 ShareClass_CCY: 'USD',
@@ -305,11 +305,12 @@ var excelData = originExcelData = [
                 $("#chart-container").empty();
                 $("#dynamic-year-chart-container").empty();
             }
-            drawChart(filteredArray, $(this).val());
+
             $("#dynamic-currency-text").html($(this).val());
+            $("#numberYear").text(filteredArray[0].list.length);
             
-            
-            drawYear(filteredArray[0].list[filteredArray[0].list.length - 1].date.slice(-4), filteredArray[0].list[0].date.slice(-4));
+            drawChart(filteredArray, $(this).val());
+            drawYear(filteredArray[0].list[filteredArray[0].list.length - 1].date.slice(-4), filteredArray[0].list[0].date.slice(-4));        
         })
 
         
@@ -347,8 +348,6 @@ var excelData = originExcelData = [
         //... draw chart
         drawChart(excelData, 'USD');
         $('.performance-container').each(function (i) {
-           console.log("============="); 
-            console.log(i);
             if(i === 1){
                 $(this).empty();
             }
@@ -427,7 +426,6 @@ var excelData = originExcelData = [
                     header: header,
                     rows: rowArr
                 };
-                $("#numberYear").text(rowArr.length);
 
                 // create column chart
                 chart = anychart.column();
@@ -494,6 +492,7 @@ var excelData = originExcelData = [
             });
             if(excelData.length > 1){
                 $("#dynamic-year-text").html(" is "+  yearFromDate(excelData[0].list[0].date));
+                $("#numberYear").text(excelData[0].list.length);
             }
         }
 
