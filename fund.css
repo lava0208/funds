@@ -221,15 +221,11 @@ html,
             display: flex;
         }
 
-        #chart-container>div:nth-child(1){
-            display: block;
+        .performance-container:first-child{
+            display: none!important;
         }
 
-        #chart-container>div{
-            display: none;
-        }
-
-        .performance-chart{
+        #performance-chart{
             width: 66.66%;
             display: inline-block;
         }
@@ -254,7 +250,6 @@ html,
         }
 
         @media (max-width: 768px) {
-
             .flex,
             .flex1 {
                 display: block;
@@ -267,5 +262,19 @@ html,
             .select,
             .download-btn {
                 width: 95%;
+            }
+        }
+        @media (max-width: 576px) {
+            .performance-container{
+                display: block!important;
+            }
+            .performance-container:nth-child(1), .performance-container:nth-child(2){
+                display: none!important;
+            }
+            #performance-chart, #performance-text{
+                width: 100%!important;
+            }
+            #performance-text{
+                margin-top: 20px;
             }
         }
