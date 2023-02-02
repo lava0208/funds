@@ -1,4 +1,4 @@
-        var excelData = originExcelData = [
+var excelData = originExcelData = [
             {
                 ShareClass_Launch: '12/27/2008',
                 ShareClass_CCY: 'USD',
